@@ -1,6 +1,6 @@
 import streamlit as st
 from PIL import Image
-from predict import predict, top_ten
+from predict import recommend, top_ten, vectorize_search
 import base64
 
 
@@ -42,8 +42,9 @@ with tab1:
     was the spring of hope, it was the winter of despair, (...)
     ''')
     if st.button('Submit'):
-        result = predict(txt)
-        st.write(result)
+        result = recommend(txt)
+        rec_songs = vectorize_search(result)
+        st.write(rec_songs)
 
 #================ By ARTIST AND SONG TITLE  ===================#
 with tab2:
