@@ -15,8 +15,9 @@ def write_to_all_songs(df):
     df.to_sql('artist_table', engine, if_exists='append', index=False)
     return
 
-def write_to_recommendations(df):
-    df.to_sql('recommendation_table', engine, if_exists='append', index=False)
+def write_to_recommendations(data):
+    recommendation_df = pd.DataFrame(data, index=[0])
+    recommendation_df.to_sql('recommendation_table', engine, if_exists='append', index=False)
     return
 
 ########  FETCH  FROM DATABASE    ############
