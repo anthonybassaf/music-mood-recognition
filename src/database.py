@@ -20,6 +20,11 @@ def write_to_recommendations(data):
     recommendation_df.to_sql('recommendation_table', engine, if_exists='append', index=False)
     return
 
+def write_to_lyrics(data):
+    recommendation_df = pd.DataFrame(data, index=[0])
+    recommendation_df.to_sql('lyrics_table', engine, if_exists='append', index=False)
+    return
+
 ########  FETCH  FROM DATABASE    ############
 def get_from_database(keyword)-> pd.DataFrame:
     search = pd.read_sql('artist_table', engine)
