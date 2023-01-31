@@ -5,7 +5,7 @@ import base64
 
 
 #================ Gif loader ===================#
-file_ = open("C:/Users/A.M. MUKTAR/Desktop/ACTION LEARNING/Music_app/images/prof.gif", "rb")
+file_ = open("images/prof.gif", "rb")
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
@@ -50,9 +50,18 @@ with tab2:
     st.subheader("Get Your artist and song")
     artist = st.text_input("Enter Artist Name", placeholder="Eminem", help="Must not be blank")
     title = st.text_input("Enter Song Title",placeholder="Not Afraid", help="Must not be blank")
+
+    # Dictionary of User Input
+    data ={
+    'artist_name': artist_name,
+    'song_title': song_title
+    }
+
     if st.button('Get Recommendation'):
-        result1 = predict(artist+" "+title)
-        st.write(result1)
+        response = requests.post("http://127.0.0.1:8000/song_input", json=data)
+        prediction = response.text
+        #result1 = predict(artist+" "+title)
+        st.write(title + " by " + artist)
 
 #========================== GET TOP TEN =========================#
 with tab3:
