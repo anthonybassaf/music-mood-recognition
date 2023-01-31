@@ -7,6 +7,8 @@ import numpy as np
 from io import BytesIO
 import datetime
 
+from database import write_to_all_songs
+
 
 class Test(BaseModel):
     text: str
@@ -43,7 +45,7 @@ class Lyrics(BaseModel):
 
 # # ===================================File Prediction============================================
 @app.post("/text")
-def user_predict(text: Data):
+def user_predict(text: Artist):
     # pred_val = model.make_predict(data)
     return text # Return pred_val
 
@@ -54,7 +56,7 @@ def artist_predict(user_input: Artist):
     # Converting to dictionary and to dataframe
     df = pd.DataFrame.from_dict([data_dict])  # type: ignore
     result = predict(df)
-    df["emotion"] = result
+    df["emotion"] = result1
     df['timestamp'] = datetime.datetime.now()
     df['id'] = uuid.uuid1()
     print(df)
@@ -85,4 +87,6 @@ def search(search: Search):
 
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    songs = pd.read_csv("dataset/lyrics_1.csv")
+    write_to_all_songs(songs)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

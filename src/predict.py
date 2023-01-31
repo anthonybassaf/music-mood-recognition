@@ -10,8 +10,6 @@ import pandas as pd
 #import tensorflow as tf
 #import tensorflow_text
 
-
-
 #================================ CLEAN TEXT ============================#
 def clean_text(text):
     docx = nt.TextFrame(text)
@@ -32,7 +30,7 @@ tracklist = []
 
 #================================ TOP TEN SONGS ===============================#
 def top_ten():
-    songs = pd.read_csv("C:/Users/A.M. MUKTAR/Desktop/ACTION LEARNING/Music_app/dataset/lyrics.csv")
+    songs = pd.read_csv("dataset/lyrics_1.csv", index_col=None)
     for i in songs["dzr_sng_id"][:10].values:
         response = requests.get(f"https://api.deezer.com/track/{i}")
         response = json.loads(response.text)
