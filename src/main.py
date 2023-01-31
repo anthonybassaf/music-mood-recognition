@@ -44,24 +44,24 @@ class Lyrics(BaseModel):
         return v
 
 # # ===================================File Prediction============================================
-@app.post("/text")
-def user_predict(text: Artist):
+
+def user_predict(data):
     # pred_val = model.make_predict(data)
     return text # Return pred_val
 
 # # ===================================USER PREDICTION END POINT FASTAPI============================================
-@app.post("/artists")
-def artist_predict(user_input: Artist):
+@app.post("/song_input")
+def artist_recommendation(user_input: Artist):
     data_dict = user_input.dict()
     # Converting to dictionary and to dataframe
     df = pd.DataFrame.from_dict([data_dict])  # type: ignore
     result = predict(df)
-    df["emotion"] = result1
+    df["mood"] = result1
     df['timestamp'] = datetime.datetime.now()
-    df['id'] = uuid.uuid1()
+    df['recommendation_id'] = uuid.uuid1()
     print(df)
     write_to_database(df)
-    return {"result": df["emotion"]}
+    return {"result": df["mood"]}
 
 @app.post("/lyrics")
 def artist_predict(user_input: Lyrics):
