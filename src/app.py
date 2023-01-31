@@ -3,6 +3,10 @@ from PIL import Image
 from predict import predict, top_ten
 import base64
 
+from database import write_to_all_songs, write_to_recommendations, write_to_lyrics
+
+import uuid
+import datetime
 
 #================ Gif loader ===================#
 file_ = open("images/prof.gif", "rb")
@@ -41,25 +45,41 @@ with tab1:
     was the season of Light, it was the season of Darkness, it
     was the spring of hope, it was the winter of despair, (...)
     ''')
+    lyrics_id = str(uuid.uuid1())
+    timestamp_lyrics = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    mood = 'test'
+
+    lyrics_data = {
+        'lyrics_id': lyrics_id,
+        'timestamp': timestamp_lyrics,
+        'lyrics': txt,
+        'mood': mood
+    }
+
     if st.button('Submit'):
-        result = predict(txt)
-        st.write(result)
+        write_to_lyrics(lyrics_data)
+        #result = predict(txt)
+        st.write(mood)
 
 #================ By ARTIST AND SONG TITLE  ===================#
 with tab2:
     st.subheader("Get Your artist and song")
     artist = st.text_input("Enter Artist Name", placeholder="Eminem", help="Must not be blank")
     title = st.text_input("Enter Song Title",placeholder="Not Afraid", help="Must not be blank")
+    recommendation_id = str(uuid.uuid1())
+    timestamp_song = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    mood = 'test'
 
-    # Dictionary of User Input
-    data ={
-    'artist_name': artist_name,
-    'song_title': song_title
+    song_data = {
+        'artist': artist,
+        'title': title,
+        'recommendation_id': recommendation_id,
+        'timestamp': timestamp_song,
+        'mood': mood
     }
 
     if st.button('Get Recommendation'):
-        response = requests.post("http://127.0.0.1:8000/song_input", json=data)
-        prediction = response.text
+        write_to_recommendations(song_data)
         #result1 = predict(artist+" "+title)
         st.write(title + " by " + artist)
 
