@@ -1,8 +1,9 @@
 import streamlit as st
 from PIL import Image
-from predict import recommend, top_ten, get_similar, final_recommended,to_recommend_db
+from predict import recommend_with_lyrics, recommend_with_title, top_ten, get_similar, final_recommended,to_recommend_db
 import base64
-
+import uuid
+import datetime
 
 #================ Gif loader ===================#
 file_ = open("C:/Users/A.M. MUKTAR/Desktop/ACTION LEARNING/Music_app/images/prof.gif", "rb")
@@ -58,7 +59,7 @@ with tab1:
     was the spring of hope, it was the winter of despair, (...)
     ''')
     if st.button('Submit'):
-        result = recommend(txt)
+        result, mood = recommend_with_lyrics(txt)
         rec_songs = get_similar(result)
         result = final_recommended(rec_songs)
         view(result)
@@ -75,12 +76,12 @@ with tab2:
     song_data = {
         'artist': artist,
         'title': title,
-        'recommendation_id': recommendation_id,
-        'timestamp': timestamp_song
+        'recommendation_id': str(uuid.uuid1()),
+        'timestamp': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
     
     if st.button('Get Recommendation'):
-        result1, mood  = recommend(data)
+        result1, mood  = recommend_with_title(data)
         to_recommend_db(song_data, mood)
         recommended_song = get_similar(result1)
         result = final_recommended(recommended_song)
