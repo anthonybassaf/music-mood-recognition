@@ -6,7 +6,11 @@ import uuid
 import datetime
 
 #================ Gif loader ===================#
+<<<<<<< HEAD
 file_ = open("./images/prof.gif", "rb")
+=======
+file_ = open("./../images/prof.gif", "rb")
+>>>>>>> 19de1f636e10a469570aab275d569bae06519a02
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
@@ -80,7 +84,7 @@ with tab2:
     title = st.text_input("Enter Song Title",placeholder="Not Afraid", help="Must not be blank")
 
     # String of User Input
-    data = title+" "+artist
+    data = title + " by " + artist
     song_data = {
         'artist': artist,
         'title': title,

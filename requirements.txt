@@ -9,7 +9,7 @@ joblib==1.1.0
 pydantic==1.9.2
 requests==2.26.0
 scikit-learn==1.0.1
-SQLAlchemy==1.4.42
+sqlalchemy==1.4.16
 streamlit==1.13.0
 urllib3==1.26.12
 uvicorn==0.18.3
