@@ -4,10 +4,12 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 import neattext as nt
 import pandas as pd
+#import gensim
 import en_core_web_md
 from database import get_from_all_songs, get_from_recommendations,write_to_recommendations
 import spacy
 import random
+import numpy as np
 
 
 #================================ CLEAN TEXT ============================#
@@ -20,7 +22,7 @@ def clean_text(text):
     return song
 
 #================================ PREDICT WITH LYRICS ============================#
-def recommend_with_lyrics(text)-> pd.DataFrame:
+def recommend_with_lyrics(text):
     song = clean_text(text)
     response = requests.post("http://127.0.0.1:8000/lyrics", json={"text": song})
     response = json.loads(response.text)
@@ -29,7 +31,7 @@ def recommend_with_lyrics(text)-> pd.DataFrame:
 
 
 #================================ PREDICT WITH TITLE AND ARTIST ============================#
-def recommend_with_title(text)-> pd.DataFrame:
+def recommend_with_title(text):
     song = clean_text(text)
     response = requests.post("http://127.0.0.1:8000/title_artist", json={"text": song})
     response = json.loads(response.text)
@@ -60,7 +62,7 @@ def top_ten():
     return tracklist
 
 #============================ VECTORIZE SEARCH PARAMETERS =======================#
-nlp = en_core_web_md.load()
+nlp = en_core_web_sm.load()
 sims = []
 doc_id = []
 
@@ -95,3 +97,22 @@ def query_db(mood)-> pd.DataFrame:
 def to_recommend_db(data, mood):
     data.update({"mood": mood["mood"]})
     write_to_recommendations(data)
+
+
+#============================  SONG BERT PREDICTION  ===========================================#
+def get_song_bert_predictions(model, input):
+    print(f"\n\ninput = {input}, input type = {type(input)}\n\n")
+    final_input = input['text']
+    print(f"\n\ninput = {final_input}, input type = {type(final_input)}\n\n")
+
+    pred = model.predict([final_input])
+    emotion_number = np.argmax(pred)
+    if emotion_number == 0:
+        return 'Happy'
+    elif emotion_number == 1:
+        return 'Sad'
+    elif emotion_number == 2:
+        return 'Angry'
+    elif emotion_number == 3:
+        return 'Relaxed'
+

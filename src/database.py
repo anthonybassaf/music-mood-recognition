@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 # database config
 ########################################################
 # set up your database url
+DATABASE_URL = 'postgresql://postgres:user123@localhost:5432/music-db'
 DATABASE_URL = 'postgresql://postgres:password@localhost:5430/music-db'
 
 engine = create_engine(DATABASE_URL)
@@ -22,6 +23,7 @@ def write_to_recommendations(data):
 
 #======================  FETCH  FROM DATABASE      ===================================#
 def get_from_all_songs(keyword)-> pd.DataFrame:
+    print(f"\nInside get_from_all_songs - keyword = {keyword}")
     search = pd.read_sql('artist_table', engine)
     search = search[search["Mood"]==keyword]
     return search
