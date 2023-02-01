@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 # database config
 ########################################################
 # set up your database url
-DATABASE_URL = 'postgresql://dsp:12345678@localhost:5432/music-db'
+DATABASE_URL = 'postgresql://postgres:password@localhost:5430/music-db'
 
 engine = create_engine(DATABASE_URL)
 
@@ -17,7 +17,7 @@ def write_to_all_songs(df):
 
 def write_to_recommendations(data):
     recommendation_df = pd.DataFrame(data, index=[0])
-    recommendation_df.to_sql('artist', engine, if_exists='append', index=False)
+    recommendation_df.to_sql('recommendation_table', engine, if_exists='append', index=False)
     return
 
 #======================  FETCH  FROM DATABASE      ===================================#
