@@ -23,14 +23,14 @@ app = FastAPI(title='Emotional Recommender', version='1.0',
 
 #================================= File Prediction ==========================================+#
 
-@app.post("/text")
-def user_predict(text: Data):
-    return text
+@app.post("/lyrics")
+def user_lyrics(lyrics: Data):
+    return {"mood": "Relaxed"}
 
 
-@app.post("/fetch_song")
-def fetch_db(fetch_song: Data):
-    return fetch_song
+@app.post("/title_artist")
+def user_artist_title(title_artist: Data):
+    return {"mood": "Angry"}
 
 
 

@@ -5,16 +5,11 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 import neattext as nt
 import pandas as pd
 import gensim
-import en_core_web_sm
+import en_core_web_md
 from database import get_from_all_songs, get_from_recommendations,write_to_recommendations
 import spacy
 import random
 
-
-
-# import tensorflow_hub as hub
-#import tensorflow as tf
-#import tensorflow_text
 
 #================================ CLEAN TEXT ============================#
 def clean_text(text):
@@ -25,10 +20,19 @@ def clean_text(text):
 
     return song
 
-#================================ PREDICT MODEL ============================#
-def recommend(text)-> pd.DataFrame:
+#================================ PREDICT WITH LYRICS ============================#
+def recommend_with_lyrics(text)-> pd.DataFrame:
     song = clean_text(text)
-    response = requests.post("http://127.0.0.1:8000/text", json={"text": song})
+    response = requests.post("http://127.0.0.1:8000/lyrics", json={"text": song})
+    response = json.loads(response.text)
+    result = query_db(response)
+    return result, response
+
+
+#================================ PREDICT WITH TITLE AND ARTIST ============================#
+def recommend_with_title(text)-> pd.DataFrame:
+    song = clean_text(text)
+    response = requests.post("http://127.0.0.1:8000/title_artist", json={"text": song})
     response = json.loads(response.text)
     result = query_db(response)
     return result, response
@@ -57,7 +61,7 @@ def top_ten():
     return tracklist
 
 #============================ VECTORIZE SEARCH PARAMETERS =======================#
-nlp = en_core_web_sm.load()
+nlp = en_core_web_md.load()
 sims = []
 doc_id = []
 
@@ -84,11 +88,11 @@ def get_similar(song_lyrics):
 
 #============================  FETCH FROM   RECOMMEND TABLE   ====================================#
 def query_db(mood)-> pd.DataFrame:
-    same_mood = get_from_recommendations()
+    same_mood = get_from_all_songs(mood["mood"])
     return same_mood
 
 
 #============================  WRITE TO RECOMMEND TABLE     ====================================#
 def to_recommend_db(data, mood):
-    data.update({"mood": mood["text"]})
+    data.update({"mood": mood["mood"]})
     write_to_recommendations(data)
