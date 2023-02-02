@@ -24,8 +24,8 @@ app = FastAPI(title='Emotional Recommender', version='1.0',
 song_bert = get_bert_model()
 lyrics_bert = song_bert
 
-latest = latest_checkpoint('./../models/song_bert_training_weights')
-lyrics_latest = latest_checkpoint('./../models/lyrics_bert_training_weights')
+latest = latest_checkpoint('./../models/song_bert_training_weights/')
+lyrics_latest = latest_checkpoint('./../models/lyrics_bert_training_weights/')
 
 if latest != None:
     song_bert.load_weights(latest)
