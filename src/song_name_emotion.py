@@ -4,14 +4,15 @@ import tensorflow_text
 import numpy as np
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
-tf.config.list_physical_devices('GPU')
+# tf.config.list_physical_devices('GPU')
 
 
 def get_bert_model():
 
-    #get BERT Layers
+    # get BERT Layers
     preprocess_url = 'https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3'
     encoder_url = 'https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/4'
+
     bert_preprocess_model = hub.KerasLayer(preprocess_url)
     bert_encoder = hub.KerasLayer(encoder_url)
 
@@ -56,10 +57,12 @@ def get_song_name_and_artist_emotion(txt: str) -> str:
     pred = model.predict(input)
     emotion_number = np.argmax(pred)
     if emotion_number == 0:
-        return 'happy'
+        return 'Happy'
     elif emotion_number == 1:
-        return 'sad'
+        return 'Sad'
     elif emotion_number == 2:
-        return 'angry'
+        return 'Angry'
     elif emotion_number == 3:
-        return 'relaxed'
+        return 'Relaxed'
+
+
