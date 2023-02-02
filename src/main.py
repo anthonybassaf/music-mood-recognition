@@ -50,4 +50,4 @@ if __name__ == '__main__':
     songs = pd.read_csv("./../dataset/lyrics_1.csv")
     write_to_all_songs(songs)
 
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
