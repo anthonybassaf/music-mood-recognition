@@ -24,8 +24,8 @@ app = FastAPI(title='Emotional Recommender', version='1.0',
 song_bert = get_bert_model()
 lyrics_bert = song_bert
 
-latest = latest_checkpoint('./../models/song_bert_training_weights')
-lyrics_latest = latest_checkpoint('./../models/lyrics_bert_training_weights')
+latest = latest_checkpoint('./models/song_bert_training_weights')
+lyrics_latest = latest_checkpoint('./models/lyrics_bert_training_weights')
 
 if latest != None:
     song_bert.load_weights(latest)
@@ -47,7 +47,7 @@ def user_artist_title(title_artist: Data):
     return {"mood": mood}
 
 if __name__ == '__main__':
-    songs = pd.read_csv("./../dataset/lyrics_1.csv")
+    songs = pd.read_csv("./dataset/lyrics_1.csv")
     write_to_all_songs(songs)
 
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

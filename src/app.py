@@ -6,7 +6,7 @@ import uuid
 import datetime
 
 #================ Gif loader ===================#
-file_ = open("./../images/prof.gif", "rb")
+file_ = open("./images/prof.gif", "rb")
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
@@ -61,7 +61,7 @@ with tab1:
     if st.button('Submit'):
         result, mood = recommend_with_lyrics(txt)
         rec_songs = get_similar(result)
-        result = final_recommended(rec_songs)
+        # result = final_recommended(rec_songs)
         st.write(f"Here are recommendations for songs with similar lyrics")
         view(result)
         #st.write(rec_songs)
@@ -84,10 +84,10 @@ with tab2:
     if st.button('Get Recommendation'):
         result1, mood  = recommend_with_title(data)
         to_recommend_db(song_data, mood)
-        recommended_song = get_similar(result1)
-        result = final_recommended(recommended_song)
-        st.write(f"Here are recommendations for similar {mood['mood']} songs")
-        view(result)
+        # recommended_song = get_similar(result1)
+        # result = final_recommended(recommended_song)
+        st.write(f"The mood of the song you chose is: {mood}")
+        view(result1)
         #st.write(recommended_song)
 
 #========================== GET TOP TEN =========================#

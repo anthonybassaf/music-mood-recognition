@@ -56,10 +56,10 @@ def get_song_name_and_artist_emotion(txt: str) -> str:
     pred = model.predict(input)
     emotion_number = np.argmax(pred)
     if emotion_number == 0:
-        return 'happy'
+        return 'Happy'
     elif emotion_number == 1:
-        return 'sad'
+        return 'Sad'
     elif emotion_number == 2:
-        return 'angry'
+        return 'Angry'
     elif emotion_number == 3:
-        return 'relaxed'
+        return 'Relaxed'
