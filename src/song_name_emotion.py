@@ -63,5 +63,3 @@ def get_song_name_and_artist_emotion(txt: str) -> str:
         return 'angry'
     elif emotion_number == 3:
         return 'relaxed'
-
-

@@ -6,7 +6,7 @@ import uuid
 import datetime
 
 #================ Gif loader ===================#
-file_ = open("C:/Users/A.M. MUKTAR/Desktop/ACTION LEARNING/Music_app/images/prof.gif", "rb")
+file_ = open("./../images/prof.gif", "rb")
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
@@ -62,6 +62,7 @@ with tab1:
         result, mood = recommend_with_lyrics(txt)
         rec_songs = get_similar(result)
         result = final_recommended(rec_songs)
+        st.write(f"Here are recommendations for songs with similar lyrics")
         view(result)
         #st.write(rec_songs)
 
@@ -72,7 +73,7 @@ with tab2:
     title = st.text_input("Enter Song Title",placeholder="Not Afraid", help="Must not be blank")
 
     # String of User Input
-    data = title+" "+artist
+    data = title + " by " + artist
     song_data = {
         'artist': artist,
         'title': title,
@@ -85,6 +86,7 @@ with tab2:
         to_recommend_db(song_data, mood)
         recommended_song = get_similar(result1)
         result = final_recommended(recommended_song)
+        st.write(f"Here are recommendations for similar {mood['mood']} songs")
         view(result)
         #st.write(recommended_song)
 
