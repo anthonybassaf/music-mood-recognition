@@ -6,11 +6,7 @@ import uuid
 import datetime
 
 #================ Gif loader ===================#
-<<<<<<< HEAD
-file_ = open("./images/prof.gif", "rb")
-=======
 file_ = open("./../images/prof.gif", "rb")
->>>>>>> 19de1f636e10a469570aab275d569bae06519a02
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
@@ -62,18 +58,11 @@ with tab1:
     was the season of Light, it was the season of Darkness, it
     was the spring of hope, it was the winter of despair, (...)
     ''')
-
-    lyrics_data = {
-        'lyrics_id': str(uuid.uuid1()),
-        'timestamp': datetime.datetime.now().strftime("9Y-m-®d %H: 8M: %5"),
-        'lyrics': txt
-    }
-
     if st.button('Submit'):
         result, mood = recommend_with_lyrics(txt)
-        to_recommend_db(lyrics_data, mood)
         rec_songs = get_similar(result)
         result = final_recommended(rec_songs)
+        st.write(f"Here are recommendations for songs with similar lyrics")
         view(result)
         #st.write(rec_songs)
 
@@ -97,6 +86,7 @@ with tab2:
         to_recommend_db(song_data, mood)
         recommended_song = get_similar(result1)
         result = final_recommended(recommended_song)
+        st.write(f"Here are recommendations for similar {mood['mood']} songs")
         view(result)
         #st.write(recommended_song)
 
