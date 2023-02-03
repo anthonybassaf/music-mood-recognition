@@ -38,9 +38,9 @@ def recommend_with_title(text):
 
 
 
-tracklist = []
-#================================ RECOMMENDED  ===============================
+#================================ RECOMMENDED  ===============================#
 def final_recommended(df):
+    tracklist = []
     for i in df["dzr_sng_id"][:10].values:
         response = requests.get(f"https://api.deezer.com/track/{i}")
         response = json.loads(response.text)
