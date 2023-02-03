@@ -86,3 +86,4 @@ def get_song_bert_predictions(model, input):
     elif emotion_number == 3:
         return 'Relaxed'
 
+
