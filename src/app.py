@@ -1,30 +1,25 @@
 import streamlit as st
-from PIL import Image
-from predict import recommend_with_lyrics, recommend_with_title, top_ten, get_similar, final_recommended,to_recommend_db
+from predict import recommend_with_lyrics, recommend_with_title, top_ten, final_recommended,t o_recommend_db
 import base64
 import uuid
 import datetime
 
-#================ Gif loader ===================#
-<<<<<<< HEAD
-file_ = open("./images/prof.gif", "rb")
-=======
+#================ Gif loader ==============================================#
 file_ = open("./../images/prof.gif", "rb")
->>>>>>> 19de1f636e10a469570aab275d569bae06519a02
 contents = file_.read()
 data_url = base64.b64encode(contents).decode("utf-8")
 file_.close()
 
-#================ Side Bar ===================#
+#============================ Side Bar ======================================#
 add_selectbox = st.sidebar.selectbox(
-    "Explore our top 10",
+    "Explore your emotion",
     ("Happy", "Sad", "Angry","Relaxed")
 )
 
 
 
 
-#================ App Header ===================#
+#=============================== App Header ===================================#
 head, photo = st.columns(2)    
 with head:   
     st.title("With music there is no tension.")
@@ -49,10 +44,10 @@ def view(result):
 
 
 
-#================ App tabs ===================#
+#============================ App tabs =========================================#
 tab1, tab2,tab3 = st.tabs(["Lyrics","Artist and Song Title","Top 10"])
 
-#================  BY LYRICS ===================#
+#==============================  BY LYRICS ========================================#
 with tab1:
     st.subheader("Search by Lyrics")
     txt = st.text_area('Insert Song Lyrics', '''
@@ -65,19 +60,17 @@ with tab1:
 
     lyrics_data = {
         'lyrics_id': str(uuid.uuid1()),
-        'timestamp': datetime.datetime.now().strftime("9Y-m-®d %H: 8M: %5"),
+        'timestamp': datetime.datetime.now(),
         'lyrics': txt
     }
 
     if st.button('Submit'):
         result, mood = recommend_with_lyrics(txt)
         to_recommend_db(lyrics_data, mood)
-        rec_songs = get_similar(result)
-        result = final_recommended(rec_songs)
+        result = final_recommended(result)
         view(result)
-        #st.write(rec_songs)
 
-#================ By ARTIST AND SONG TITLE  ===================#
+#===================== By ARTIST AND SONG TITLE  =================================#
 with tab2:
     st.subheader("Get Your artist and song")
     artist = st.text_input("Enter Artist Name", placeholder="Eminem", help="Must not be blank")
@@ -89,16 +82,14 @@ with tab2:
         'artist': artist,
         'title': title,
         'recommendation_id': str(uuid.uuid1()),
-        'timestamp': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        'timestamp': datetime.datetime.now()
     }
     
     if st.button('Get Recommendation'):
         result1, mood  = recommend_with_title(data)
         to_recommend_db(song_data, mood)
-        recommended_song = get_similar(result1)
-        result = final_recommended(recommended_song)
+        result = final_recommended(result1)
         view(result)
-        #st.write(recommended_song)
 
 #========================== GET TOP TEN =========================#
 with tab3:
